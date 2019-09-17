@@ -1,37 +1,40 @@
 {
-  "name": "@dynamic-mapper/mapper",
-  "version": "1.0.0",
-  "description": "",
-  "main": "lib/mapper.cjs.js",
-  "module": "lib/mapper.esm.js",
-  "typings": "lib/index.d.ts",
-  "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "lint": "tslint -p tsconfig.lib.json",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DynamicMapper/DynamicMapper.git"
-  },
-  "keywords": [],
-  "author": "Jan Susicky <susicky.jan@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DynamicMapper/DynamicMapper/issues"
-  },
-  "homepage": "https://github.com/DynamicMapper/DynamicMapper",
-  "dependencies": {},
-  "peerDependencies": {},
-  "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "jest": "^24.9.0",
-    "rollup": "^1.21.4",
-    "rollup-plugin-terser": "^5.1.2",
-    "rollup-plugin-typescript2": "^0.24.2",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
-  }
+    "name": "@dynamic-mapper/mapper",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/mapper.cjs.js",
+    "module": "lib/mapper.esm.js",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "build": "rollup -c rollup.config.js",
+        "lint": "tslint -p tsconfig.lib.json",
+        "test": "jest"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DynamicMapper/DynamicMapper.git"
+    },
+    "keywords": [],
+    "author": "Jan Susicky <susicky.jan@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/DynamicMapper/DynamicMapper/issues"
+    },
+    "homepage": "https://github.com/DynamicMapper/DynamicMapper",
+    "dependencies": {},
+    "peerDependencies": {},
+    "devDependencies": {
+        "@types/jest": "^24.0.18",
+        "jest": "^24.9.0",
+        "rollup": "^1.21.4",
+        "rollup-plugin-terser": "^5.1.2",
+        "rollup-plugin-typescript2": "^0.24.2",
+        "ts-jest": "^24.1.0",
+        "ts-node": "^8.3.0",
+        "tslint": "^5.20.0",
+        "typescript": "^3.6.3"
+    }
 }
