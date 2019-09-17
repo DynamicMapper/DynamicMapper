@@ -42,9 +42,9 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
 
     abstract forMember<Member extends keyof TDestination>(
         destinationMember: Member,
-        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>,
+        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>) => void,
         auto?: boolean
-    ) => void): this;
+    ): this;
 
     addTransform<TValue>(transformer: (value: TValue) => TValue): this {
         this.valueTransformers.push(transformer);

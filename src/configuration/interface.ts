@@ -45,9 +45,9 @@ export interface IMappingExpression<TSource, TDestination> extends IMappingExpre
      */
     forMember<Member extends keyof TDestination>(
         destinationMember: Member,
-        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>,
+        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>) => void,
         auto?: boolean
-    ) => void): this;
+    ): this;
 
     /**
      * Include the base mapping pair configuration into this map.
