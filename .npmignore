@@ -1,6 +1,0 @@
-test
-.gitignore
-tsconfig.json
-tsconfig.lib.json
-tsconfig.test.json
-rollup.config.js
