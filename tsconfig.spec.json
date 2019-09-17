@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "inlineSourceMap": true,
+    "outDir": "test/out-tsc/test"
+  }
+}

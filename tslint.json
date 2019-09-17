@@ -1,0 +1,20 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "array-type": false,
+        "arrow-parens": false,
+        "max-classes-per-file": false,
+        "member-access": false,
+        "member-ordering": false,
+        "ordered-imports": false,
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "trailing-comma": false,
+        "variable-name": [
+            true,
+            "allow-leading-underscore"
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "outDir": "out-tsc",
+    "target": "es5",
+    "strictNullChecks": true
+  }
+}
