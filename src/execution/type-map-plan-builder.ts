@@ -34,7 +34,7 @@ export class TypeMapPlanBuilder {
         return (source, destination, context) => {
             const dest = destination ? destination : destinationFunc(source);
 
-            if (this.typeMap.implicitAutoMapping) {
+            if (this.typeMap.implicitAutoMapping && source) {
                 for (const key of Object.keys(source)) {
                     // auto map only those properties that are not ignored
                     if (!this.typeMap.propertyMaps.has(key) || this.typeMap.propertyMaps.get(key)!.canResolveValue) {
@@ -137,10 +137,10 @@ export class TypeMapPlanBuilder {
         let resolver: MapperFunction;
 
         if (memberMap.customMappingFunction) {
-            resolver = source => typeof source == null ? null : memberMap.customMappingFunction(source);
+            resolver = source => source == null ? null : memberMap.customMappingFunction(source);
         } else if (memberMap.sourceMembers.length) {
             // TODO: chain
-            resolver = source => typeof source == null ? null : source[memberMap.sourceMembers[0]];
+            resolver = source => source == null ? null : source[memberMap.sourceMembers[0]];
         } else {
             throw new Error(`Unable to detect source member for destination member "${memberMap.destinationMember.toString()}"`);
         }
