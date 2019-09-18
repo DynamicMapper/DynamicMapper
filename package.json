@@ -1,7 +1,7 @@
 {
     "name": "@dynamic-mapper/mapper",
     "version": "1.1.0",
-    "description": "",
+    "description": "Object to object mapping in JavaScript",
     "main": "lib/mapper.cjs.js",
     "module": "lib/mapper.esm.js",
     "typings": "lib/index.d.ts",
@@ -20,13 +20,18 @@
         "type": "git",
         "url": "git+https://github.com/DynamicMapper/DynamicMapper.git"
     },
-    "keywords": [],
+    "keywords": [
+        "TypeScript",
+        "Mapper",
+        "Mapping",
+        "Object"
+    ],
     "author": "Jan Susicky <susicky.jan@gmail.com>",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/DynamicMapper/DynamicMapper/issues"
     },
-    "homepage": "https://github.com/DynamicMapper/DynamicMapper",
+    "homepage": "https://dynamic-mapper.gitbook.io",
     "dependencies": {},
     "peerDependencies": {},
     "devDependencies": {
