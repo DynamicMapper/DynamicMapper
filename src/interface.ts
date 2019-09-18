@@ -176,6 +176,14 @@ export interface IProfileExpression {
      */
     createMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
+        config?: Partial<MappingMembers<TSource, TDestination>>): IMappingExpression<TSource, TDestination>;
+
+    /**
+     * Creates a strict mapping configuration for provided mapping pair that requires
+     * configuration for each destination member.
+     */
+    createStrictMap<TSource, TDestination>(
+        pair: MappingPair<TSource, TDestination>,
         config: Required<MappingMembers<TSource, TDestination>>): IMappingExpression<TSource, TDestination>;
 }
 

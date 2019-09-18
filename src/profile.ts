@@ -31,6 +31,13 @@ export abstract class Profile implements IProfileExpression, IProfileConfigurati
         return this.createMappingExpresion(pair, config);
     }
 
+    createStrictMap<TSource, TDestination>(
+        pair: MappingPair<TSource, TDestination>,
+        config: Required<MappingMembers<TSource, TDestination>>
+    ): IMappingExpression<TSource, TDestination> {
+        return this.createMappingExpresion(pair, config);
+    }
+
     private createMappingExpresion<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
         config: Partial<MappingMembers<TSource, TDestination>>,
