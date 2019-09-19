@@ -5,6 +5,10 @@ import { IAutoMappingExpression, IMappingExpression } from './configuration/inte
 
 export type Type<T> = new (...args: any[]) => T;
 
+export type NormalizeIntersection<T> = {
+    [K in keyof T]: T[K];
+}
+
 /**
  * Picks keys contained in both A and B and whose values have same type.
  */

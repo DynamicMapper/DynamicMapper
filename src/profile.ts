@@ -4,7 +4,7 @@ import {
     AutoMappableProperties, ExplicitProperties,
     IProfileExpression,
     ITypeMapConfiguration,
-    MappingMembers,
+    MappingMembers, NormalizeIntersection,
     ValueTransformer
 } from './interface';
 import { IAutoMappingExpression, IMappingExpression, IProfileConfiguration } from './configuration/interface';
@@ -20,8 +20,9 @@ export abstract class Profile implements IProfileExpression, IProfileConfigurati
 
     createAutoMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
-        members: Partial<AutoMappableProperties<TSource, TDestination>> &
-                 Required<ExplicitProperties<TSource, TDestination>>
+        members: NormalizeIntersection<
+                    Partial<AutoMappableProperties<TSource, TDestination>> &
+                    Required<ExplicitProperties<TSource, TDestination>>>
     ): IAutoMappingExpression<TSource, TDestination> {
         return this.configureMappingExpression(
             new AutoMappingExpression<TSource, TDestination>(pair),
