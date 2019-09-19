@@ -1,6 +1,6 @@
 {
     "name": "@dynamic-mapper/mapper",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "description": "Object to object mapping in JavaScript",
     "main": "lib/mapper.cjs.js",
     "module": "lib/mapper.esm.js",
