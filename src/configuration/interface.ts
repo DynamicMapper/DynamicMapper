@@ -1,10 +1,11 @@
 import {
-    IProfileExpression,
+    IProfileExpression, ISourceMemberConfigurationExpression,
     ITypeMapConfiguration,
     MappingFunction,
     ValueTransformer
 } from '../interface';
 import { MappingPair } from '../mapping-pair';
+import { TypeMap } from '../type-map';
 import { MemberConfigurationExpression } from './member-configuration-expression';
 import { Profile } from '../profile';
 
@@ -45,8 +46,7 @@ export interface IMappingExpression<TSource, TDestination> extends IMappingExpre
      */
     forMember<Member extends keyof TDestination>(
         destinationMember: Member,
-        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>) => void,
-        auto?: boolean
+        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>) => void
     ): this;
 
     /**
@@ -59,11 +59,15 @@ export interface IMappingExpression<TSource, TDestination> extends IMappingExpre
      */
     include<TDerivedSource extends TSource, TDerivedDestination extends TDestination>(
         pair: MappingPair<TDerivedSource, TDerivedDestination>): this;
+}
+
+export interface IAutoMappingExpression<TSource, TDestination> extends IMappingExpression<TSource, TDestination> {
 
     /**
-     * Enables auto mapping of source members directly to destination.
+     * Customize source member.
      */
-    withAutoMapping(): this;
+    forSourceMember<Member extends keyof TSource>(
+        sourceMember: Member, memberOptions: (expression: ISourceMemberConfigurationExpression) => void): this;
 }
 
 export interface IMapperConfigurationExpression {
@@ -76,4 +80,8 @@ export interface IMapperConfigurationExpression {
      * Creates a name profile with provided configuration.
      */
     createProfile(profileName: string, config: (config: IProfileExpression) => void): void;
+}
+
+export interface ISourceMemberConfiguration {
+    configure(typeMap: TypeMap): void;
 }

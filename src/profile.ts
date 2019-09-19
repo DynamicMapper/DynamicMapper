@@ -1,3 +1,5 @@
+import { AutoMappingExpression } from './configuration/auto-mapping-expression';
+import { MappingExpressionBase } from './configuration/mapping-expression-base';
 import {
     AutoMappableProperties, ExplicitProperties,
     IProfileExpression,
@@ -5,7 +7,7 @@ import {
     MappingMembers,
     ValueTransformer
 } from './interface';
-import { IMappingExpression, IProfileConfiguration } from './configuration/interface';
+import { IAutoMappingExpression, IMappingExpression, IProfileConfiguration } from './configuration/interface';
 import { MappingPair } from './mapping-pair';
 import { MappingExpression } from './configuration/mapping-expression';
 
@@ -20,41 +22,39 @@ export abstract class Profile implements IProfileExpression, IProfileConfigurati
         pair: MappingPair<TSource, TDestination>,
         members: Partial<AutoMappableProperties<TSource, TDestination>> &
                  Required<ExplicitProperties<TSource, TDestination>>
-    ): IMappingExpression<TSource, TDestination> {
-        return this.createMappingExpresion(pair, members as Partial<MappingMembers<TSource, TDestination>>, true);
+    ): IAutoMappingExpression<TSource, TDestination> {
+        return this.configureMappingExpression(
+            new AutoMappingExpression<TSource, TDestination>(pair),
+            members as Partial<MappingMembers<TSource, TDestination>>
+        );
     }
 
     createMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
         config: Partial<MappingMembers<TSource, TDestination>> = {}
     ): IMappingExpression<TSource, TDestination> {
-        return this.createMappingExpresion(pair, config);
+        return this.configureMappingExpression(new MappingExpression<TSource, TDestination>(pair), config);
     }
 
     createStrictMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
         config: Required<MappingMembers<TSource, TDestination>>
     ): IMappingExpression<TSource, TDestination> {
-        return this.createMappingExpresion(pair, config);
+        return this.configureMappingExpression(new MappingExpression<TSource, TDestination>(pair), config);
     }
 
-    private createMappingExpresion<TSource, TDestination>(
-        pair: MappingPair<TSource, TDestination>,
-        config: Partial<MappingMembers<TSource, TDestination>>,
-        auto: boolean = false
-    ): IMappingExpression<TSource, TDestination> {
-        const map = new MappingExpression<TSource, TDestination>(pair);
-
+    private configureMappingExpression<
+        TExpression extends MappingExpressionBase<TSource, TDestination>, TSource, TDestination
+    >(
+        expression: TExpression,
+        config: Partial<MappingMembers<TSource, TDestination>>
+    ): TExpression {
         for (const member of Object.keys(config)) {
-            map.forMember(member as keyof TDestination, config[member], auto);
+            expression.forMember(member as keyof TDestination, config[member]);
         }
 
-        if (auto) {
-            map.withAutoMapping();
-        }
+        this.typeMapConfigs.push(expression);
 
-        this.typeMapConfigs.push(map);
-
-        return map;
+        return expression;
     }
 }

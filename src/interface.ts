@@ -1,7 +1,7 @@
 import { MappingPair } from './mapping-pair';
 import { TypeMap } from './type-map';
 import { ResolutionContext } from './resolution-context';
-import { IMappingExpression } from './configuration/interface';
+import { IAutoMappingExpression, IMappingExpression } from './configuration/interface';
 
 export type Type<T> = new (...args: any[]) => T;
 
@@ -157,6 +157,13 @@ export interface IAutoMemberConfigurationExpression<TSource, TDestination, TMemb
     auto(): void;
 }
 
+export interface ISourceMemberConfigurationExpression {
+    /**
+     * Ignore this member during auto mapping.
+     */
+    ignore(): void;
+}
+
 export interface IProfileExpression {
     /**
      * Value transformers applied on each mapping member.
@@ -169,7 +176,7 @@ export interface IProfileExpression {
     createAutoMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
         members: Partial<AutoMappableProperties<TSource, TDestination>> &
-                 Required<ExplicitProperties<TSource, TDestination>>): IMappingExpression<TSource, TDestination>;
+                 Required<ExplicitProperties<TSource, TDestination>>): IAutoMappingExpression<TSource, TDestination>;
 
     /**
      * Creates a mapping configuration for provided mapping pair.

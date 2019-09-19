@@ -31,13 +31,17 @@ export class TypeMapPlanBuilder {
             ...this.typeMap.profile.valueTransformers
         ]);
 
+        const ignoredSourceMembers = this.typeMap.implicitAutoMapping ? this.getIgnoredSourceMembers() : [];
+        const ignoredDestinationMembers =
+            this.typeMap.implicitAutoMapping ? this.getUnresolvableDestinationMembers() : [];
+
         return (source, destination, context) => {
             const dest = destination ? destination : destinationFunc(source);
 
             if (this.typeMap.implicitAutoMapping && source) {
                 for (const key of Object.keys(source)) {
-                    // auto map only those properties that are not ignored
-                    if (!this.typeMap.propertyMaps.has(key) || this.typeMap.propertyMaps.get(key)!.canResolveValue) {
+                    // auto map only when both source and destination are not ignored
+                    if (!ignoredSourceMembers.includes(key) && !ignoredDestinationMembers.includes(key)) {
                         dest[key] = transformerFunc(source[key]);
                     }
                 }
@@ -154,5 +158,29 @@ export class TypeMapPlanBuilder {
         }
 
         return resolver;
+    }
+
+    private getIgnoredSourceMembers(): ReadonlyArray<MemberInfo> {
+        const members: MemberInfo[] = [];
+
+        this.typeMap.sourceMemberConfigs.forEach(cfg => {
+            if (cfg.isIgnored()) {
+                members.push(cfg.sourceMember);
+            }
+        });
+
+        return members;
+    }
+
+    private getUnresolvableDestinationMembers(): ReadonlyArray<MemberInfo> {
+        const members: MemberInfo[] = [];
+
+        this.typeMap.propertyMaps.forEach(cfg => {
+            if (!cfg.canResolveValue) {
+                members.push(cfg.destinationMember);
+            }
+        });
+
+        return members;
     }
 }

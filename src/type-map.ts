@@ -1,3 +1,4 @@
+import { SourceMemberConfig } from './configuration/source-member-config';
 import {
     IConfigurationProvider,
     MapperFunction,
@@ -20,6 +21,7 @@ export class TypeMap {
     get hasDerivedTypesToInclude(): boolean {
         return this._includedDerivedTypes.length > 0 || this.destinationTypeOverride != null;
     }
+    get sourceMemberConfigs(): ReadonlyMap<MemberInfo, SourceMemberConfig> { return this._sourceMemberConfigs; }
 
     public customMapFunction: MappingFunction<any, any>;
     public customCtorFunction: MappingFunction<any, any>;
@@ -35,6 +37,7 @@ export class TypeMap {
     private readonly _includedBaseTypes: MappingPair<any, any>[] = [];
     private readonly _includedDerivedTypes: MappingPair<any, any>[] = [];
     private readonly _inheritedTypeMaps: TypeMap[] = [];
+    private readonly _sourceMemberConfigs = new Map<MemberInfo, SourceMemberConfig>();
     private _mapFunction: MapperFunction<any, any>;
 
     private sealed = false;
@@ -91,6 +94,18 @@ export class TypeMap {
         this.insertPropertyMap(propertyMap);
 
         return propertyMap;
+    }
+
+    findOrCreateSourceMemberConfigFor(sourceMember: MemberInfo): SourceMemberConfig {
+        let config = this._sourceMemberConfigs.get(sourceMember);
+
+        if (config) {
+            return config;
+        }
+
+        config = new SourceMemberConfig(sourceMember);
+        this._sourceMemberConfigs.set(sourceMember, config);
+        return config;
     }
 
     private insertPropertyMap(propertyMap: PropertyMap): void {

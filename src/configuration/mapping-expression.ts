@@ -8,15 +8,15 @@ export class MappingExpression<TSource, TDestination> extends MappingExpressionB
 
     forMember<Member extends keyof TDestination>(
         destinationMember: Member,
-        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>) => void,
-        auto: boolean = false) {
-        return this.forDestinationMember(destinationMember, memberOptions, auto);
+        memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TDestination[Member]>) => void
+    ) {
+        return this.forDestinationMember(destinationMember, memberOptions);
     }
 
-    private forDestinationMember<TMember>(
+    protected forDestinationMember<TMember>(
         destinationMember: MemberInfo,
         memberOptions: (expression: MemberConfigurationExpression<TSource, TDestination, TMember>) => void,
-        auto: boolean): this {
+        auto: boolean = false): this {
         const expression = new MemberConfigurationExpression<TSource, TDestination, TMember>(destinationMember);
 
         if (auto) {

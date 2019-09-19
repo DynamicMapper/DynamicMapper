@@ -5,7 +5,7 @@ import {
     Type,
     ValueTransformer
 } from '../interface';
-import { IMappingExpression, IMappingExpressionBase } from './interface';
+import { IMappingExpression, IMappingExpressionBase, ISourceMemberConfiguration } from './interface';
 import { isType, MappingPair } from '../mapping-pair';
 import { TypeMap } from '../type-map';
 import { MemberConfigurationExpression } from './member-configuration-expression';
@@ -20,6 +20,7 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
     readonly valueTransformers: ValueTransformer[] = [];
 
     protected readonly memberConfigurations: IPropertyMapConfiguration[] = [];
+    protected readonly sourceMemberConfigurations: ISourceMemberConfiguration[] = [];
     protected readonly typeMapActions: ((tm: TypeMap) => void)[] = [];
 
     constructor(
@@ -32,6 +33,10 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
         }
 
         for (const memberConfig of this.memberConfigurations) {
+            memberConfig.configure(typeMap);
+        }
+
+        for (const memberConfig of this.sourceMemberConfigurations) {
             memberConfig.configure(typeMap);
         }
 
@@ -70,11 +75,6 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
     include<TDerivedSource extends TSource, TDerivedDestination extends TDestination>(
         pair: MappingPair<TDerivedSource, TDerivedDestination>): this {
         this.typeMapActions.push(tm => tm.includeDerivedPair(pair));
-        return this;
-    }
-
-    withAutoMapping(): this {
-        this.typeMapActions.push(tm => tm.implicitAutoMapping = true);
         return this;
     }
 }
