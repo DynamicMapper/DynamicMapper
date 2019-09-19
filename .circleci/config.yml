@@ -21,12 +21,12 @@ jobs:
           command: npm run lint
       - run:
           name: Test
-          command: npm run test
+          command: npm run test:ci
       - persist_to_workspace:
           root: ~/repo
           paths: .
 
-  deploy:
+  publish:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -55,7 +55,7 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-      - deploy:
+      - publish:
           requires:
             - hold
           filters:
