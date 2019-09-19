@@ -77,4 +77,9 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
         this.typeMapActions.push(tm => tm.includeDerivedPair(pair));
         return this;
     }
+
+    mapSubtype(pair: MappingPair<TSource, TDestination>, discriminatorCondition: (source: TSource) => boolean): this {
+        this.typeMapActions.push(tm => tm.addPolymorphicMap(discriminatorCondition, pair));
+        return this;
+    }
 }

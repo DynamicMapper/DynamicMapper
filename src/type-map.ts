@@ -12,8 +12,14 @@ import { MappingPair } from './mapping-pair';
 import { TypeMapPlanBuilder } from './execution/type-map-plan-builder';
 import { ProfileMap } from './profile-map';
 
+interface ISubtypeMap {
+    condition: (source: any) => boolean;
+    pair: MappingPair<any, any>;
+}
+
 export class TypeMap {
     get propertyMaps(): ReadonlyMap<MemberInfo, PropertyMap> { return this._propertyMaps; }
+    get subtypeMaps(): ReadonlyArray<ISubtypeMap> { return this._subtypeMaps; }
     get mapFunction(): MapperFunction<any, any> { return this._mapFunction; }
     get valueTransformers(): ReadonlyArray<ValueTransformer> { return this._valueTransformers; }
     get includedBaseTypes(): ReadonlyArray<MappingPair<any, any>> { return this._includedBaseTypes; }
@@ -38,6 +44,7 @@ export class TypeMap {
     private readonly _includedDerivedTypes: MappingPair<any, any>[] = [];
     private readonly _inheritedTypeMaps: TypeMap[] = [];
     private readonly _sourceMemberConfigs = new Map<MemberInfo, SourceMemberConfig>();
+    private readonly _subtypeMaps: ISubtypeMap[] = [];
     private _mapFunction: MapperFunction<any, any>;
 
     private sealed = false;
@@ -62,6 +69,10 @@ export class TypeMap {
         }
 
         this._includedDerivedTypes.push(derivedPair);
+    }
+
+    addPolymorphicMap(condition: (source: any) => boolean, pair: MappingPair<any, any>): void {
+        this._subtypeMaps.push({ condition, pair });
     }
 
     addInheritedMap(inheritedTypeMap: TypeMap): void {
@@ -136,9 +147,10 @@ export class TypeMap {
                 if (sourceMember) {
                     sourceMember.ignore();
                 } else {
-                    this._sourceMemberConfigs.set(inheritedSourceMemberConfig.sourceMember, inheritedSourceMemberConfig);
+                    this._sourceMemberConfigs.set(
+                        inheritedSourceMemberConfig.sourceMember, inheritedSourceMemberConfig);
                 }
             }
-        })
+        });
     }
 }

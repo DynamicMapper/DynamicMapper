@@ -16,7 +16,7 @@ export class PropertyMap implements IMemberMap {
 
     public pair: MappingPair<any, any> | undefined;
 
-    public readonly sourceMembers: ReadonlyArray<MemberInfo> = this._memberChain;
+    get sourceMembers(): ReadonlyArray<MemberInfo> { return this._memberChain; }
 
     get valueTransformers(): ReadonlyArray<ValueTransformer<any>> { return this._valueTransformers; }
 

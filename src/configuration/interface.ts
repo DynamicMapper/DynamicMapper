@@ -33,6 +33,11 @@ export interface IMappingExpressionBase<TSource, TDestination> {
      * Instantiate destination from provided function.
      */
     constructUsing(mappingFunction: MappingFunction<TSource, Partial<TDestination>>): this;
+
+    /**
+     * Adds a subtype mapping that handles mapping if provided discriminator condition matches.
+     */
+    mapSubtype(pair: MappingPair<TSource, TDestination>, discriminatorCondition: (source: TSource) => boolean): this;
 }
 
 export interface IMappingExpression<TSource, TDestination> extends IMappingExpressionBase<TSource, TDestination> {

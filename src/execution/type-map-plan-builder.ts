@@ -36,6 +36,13 @@ export class TypeMapPlanBuilder {
             this.typeMap.implicitAutoMapping ? this.getUnresolvableDestinationMembers() : [];
 
         return (source, destination, context) => {
+            const subtypeMap = this.typeMap.subtypeMaps.find(map => map.condition(source));
+
+            if (subtypeMap) {
+                // Switch mapping to a subtype mapper.
+                return context.map(subtypeMap.pair, source, destination);
+            }
+
             const dest = destination ? destination : destinationFunc(source);
 
             if (this.typeMap.implicitAutoMapping && source) {
