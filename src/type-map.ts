@@ -127,5 +127,18 @@ export class TypeMap {
         });
 
         this._valueTransformers.unshift(...inheritedTypeMap.valueTransformers);
+
+        // apply inherited source member configs
+        inheritedTypeMap._sourceMemberConfigs.forEach(inheritedSourceMemberConfig => {
+            if (inheritedSourceMemberConfig.isIgnored()) {
+                const sourceMember = this._sourceMemberConfigs.get(inheritedSourceMemberConfig.sourceMember);
+
+                if (sourceMember) {
+                    sourceMember.ignore();
+                } else {
+                    this._sourceMemberConfigs.set(inheritedSourceMemberConfig.sourceMember, inheritedSourceMemberConfig);
+                }
+            }
+        })
     }
 }
