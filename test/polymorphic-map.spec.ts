@@ -42,11 +42,11 @@ describe('Polymorphic mapping', () => {
 
         cfg.createAutoMap(FooEntityToDto, {
             fooProperty: opt => opt.mapFrom(src => parseInt(src.property1))
-        }).includeBase(EntityToDto);
+        });
 
         cfg.createAutoMap(BarEntityToDto, {
             barProperty: opt => opt.mapFrom(src => parseInt(src.property1))
-        }).includeBase(EntityToDto);
+        });
     }).createMapper();
 
     it('should map FooDto from base mapping pair', () => {

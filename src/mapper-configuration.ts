@@ -33,8 +33,8 @@ export class MapperConfiguration implements IConfigurationProvider {
         return this.typeMapRegistry.get(pair);
     }
 
-    getIncludedTypeMaps(includedTypes: MappingPair<any, any>[]): ReadonlyArray<TypeMap> {
-        return includedTypes.map(pair => {
+    getIncludedTypeMaps(includedTypes: ReadonlySet<MappingPair<any, any>>): ReadonlyArray<TypeMap> {
+        return Array.from(includedTypes).map(pair => {
             const typeMap = this.findTypeMapFor(pair);
 
             if (typeMap) {

@@ -22,10 +22,10 @@ export class TypeMap {
     get subtypeMaps(): ReadonlyArray<ISubtypeMap> { return this._subtypeMaps; }
     get mapFunction(): MapperFunction<any, any> { return this._mapFunction; }
     get valueTransformers(): ReadonlyArray<ValueTransformer> { return this._valueTransformers; }
-    get includedBaseTypes(): ReadonlyArray<MappingPair<any, any>> { return this._includedBaseTypes; }
-    get includedDerivedTypes(): ReadonlyArray<MappingPair<any, any>> { return this._includedDerivedTypes; }
+    get includedBaseTypes(): ReadonlySet<MappingPair<any, any>> { return this._includedBaseTypes; }
+    get includedDerivedTypes(): ReadonlySet<MappingPair<any, any>> { return this._includedDerivedTypes; }
     get hasDerivedTypesToInclude(): boolean {
-        return this._includedDerivedTypes.length > 0 || this.destinationTypeOverride != null;
+        return this._includedDerivedTypes.size > 0 || this.destinationTypeOverride != null;
     }
     get sourceMemberConfigs(): ReadonlyMap<MemberInfo, SourceMemberConfig> { return this._sourceMemberConfigs; }
 
@@ -40,9 +40,9 @@ export class TypeMap {
 
     private readonly _propertyMaps = new Map<MemberInfo, PropertyMap>();
     private readonly _valueTransformers: ValueTransformer[] = [];
-    private readonly _includedBaseTypes: MappingPair<any, any>[] = [];
-    private readonly _includedDerivedTypes: MappingPair<any, any>[] = [];
-    private readonly _inheritedTypeMaps: TypeMap[] = [];
+    private readonly _includedBaseTypes = new Set<MappingPair<any, any>>();
+    private readonly _includedDerivedTypes = new Set<MappingPair<any, any>>();
+    private readonly _inheritedTypeMaps = new Set<TypeMap>();
     private readonly _sourceMemberConfigs = new Map<MemberInfo, SourceMemberConfig>();
     private readonly _subtypeMaps: ISubtypeMap[] = [];
     private _mapFunction: MapperFunction<any, any>;
@@ -60,7 +60,7 @@ export class TypeMap {
             throw new Error('You cannot include a type map into itself.');
         }
 
-        this._includedBaseTypes.push(basePair);
+        this._includedBaseTypes.add(basePair);
     }
 
     includeDerivedPair(derivedPair: MappingPair<any, any>): void {
@@ -68,7 +68,7 @@ export class TypeMap {
             throw new Error('You cannot include a type map into itself.');
         }
 
-        this._includedDerivedTypes.push(derivedPair);
+        this._includedDerivedTypes.add(derivedPair);
     }
 
     addPolymorphicMap(condition: (source: any) => boolean, pair: MappingPair<any, any>): void {
@@ -76,7 +76,7 @@ export class TypeMap {
     }
 
     addInheritedMap(inheritedTypeMap: TypeMap): void {
-        this._inheritedTypeMaps.push(inheritedTypeMap);
+        this._inheritedTypeMaps.add(inheritedTypeMap);
     }
 
     seal(configurationProvider: IConfigurationProvider): void {
@@ -86,9 +86,7 @@ export class TypeMap {
 
         this.sealed = true;
 
-        for (const inheritedTypeMap of this._inheritedTypeMaps) {
-            this.applyInheritedTypeMap(inheritedTypeMap);
-        }
+        this._inheritedTypeMaps.forEach(inheritedTypeMap => this.applyInheritedTypeMap(inheritedTypeMap));
 
         this._mapFunction = new TypeMapPlanBuilder(configurationProvider, this).createMapper();
     }

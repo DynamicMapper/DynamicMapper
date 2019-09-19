@@ -108,7 +108,7 @@ export interface IConfigurationProvider {
      */
     findTypeMapFor(pair: MappingPair<any, any>): TypeMap | undefined;
 
-    getIncludedTypeMaps(includedTypes: ReadonlyArray<MappingPair<any, any>>): ReadonlyArray<TypeMap>;
+    getIncludedTypeMaps(includedTypes: ReadonlySet<MappingPair<any, any>>): ReadonlyArray<TypeMap>;
 }
 
 export interface IMemberConfigurationExpression<TSource, TDestination, TMember> {
