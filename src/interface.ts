@@ -9,6 +9,12 @@ export type NormalizeIntersection<T> = {
     [K in keyof T]: T[K];
 };
 
+export type MethodKeys<T> = {
+    [K in keyof T]: T[K] extends (...arg: any) => any ? K : never;
+}[keyof T];
+
+type MappableKeys<T> = Omit<T, Extract<keyof T, MethodKeys<T>>>;
+
 /**
  * Picks keys contained in both A and B and whose values have same type.
  */
@@ -35,14 +41,16 @@ export type AutoMappingOptionsConfiguration<TSource, TDestination, T> = {
  */
 export type AutoMappableProperties<TSource, TDestination> =
     AutoMappingOptionsConfiguration<
-        TSource, TDestination, Pick<TDestination, Extract<keyof TDestination, AutoMappingKeys<TSource, TDestination>>>>;
+        TSource, TDestination,
+        MappableKeys<Pick<TDestination, Extract<keyof TDestination, AutoMappingKeys<TSource, TDestination>>>>>;
 
 /**
  * Picks properties that are not auto mappable.
  */
 export type ExplicitProperties<TSource, TDestination> =
     BaseOptionsConfiguration<
-        TSource, TDestination, Pick<TDestination, Exclude<keyof TDestination, AutoMappingKeys<TSource, TDestination>>>>;
+        TSource, TDestination,
+        MappableKeys<Pick<TDestination, Exclude<keyof TDestination, AutoMappingKeys<TSource, TDestination>>>>>;
 
 /**
  * Destination member mapping configuration.
