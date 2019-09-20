@@ -1,3 +1,9 @@
+#### 1.3.1 (2019-09-20)
+
+##### Bug Fixes
+
+*  method properties should not be required in member configuration ([bd8063eb](https://github.com/DynamicMapper/DynamicMapper/commit/bd8063eb14241fab062f7b6e20ea89528525d499))
+
 ### 1.3.0 (2019-09-20)
 
 ##### New Features
