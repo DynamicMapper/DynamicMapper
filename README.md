@@ -18,9 +18,9 @@ Complete documentation available [here](https://dynamic-mapper.gitbook.io).
 
 ## Motivation
 
-Take a UI application where data are consumed in a form of `DtoOut` interface that needs to be transformed to `Domain` interface that is 
+Take a UI application where data are consumed in a form of `Response DTO` interface that needs to be transformed to `Domain` interface that is 
 later transformed into a UI view (i.e. Angular Reactive Form value). Modified view then needs to be transformed back to `Domain` and
-this updated domain object should be send back to the server in form of `DtoIn`. Pretty tedious to write those mapping in an imperative 
+this updated domain object should be send back to the server in form of `Request DTO`. Pretty tedious to write those mapping in an imperative 
 way for each individual domain object.
 
 ![Example](https://raw.githubusercontent.com/DynamicMapper/DynamicMapper/master/docs/diagram.png)
