@@ -23,7 +23,7 @@ later transformed into a UI view (i.e. Angular Reactive Form value). Modified vi
 this updated domain object should be send back to the server in form of `DtoIn`. Pretty tedious to write those mapping in an imperative 
 way for each individual domain object.
 
-![Example](https://github.com/DynamicMapper/DynamicMapper/blob/master/docs/diagram.svg)
+![Example](https://raw.githubusercontent.com/DynamicMapper/DynamicMapper/master/docs/diagram.png)
 
 ## Usage 
 
