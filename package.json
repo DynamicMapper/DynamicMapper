@@ -9,7 +9,10 @@
         "build": "rollup -c rollup.config.js",
         "lint": "tslint -p tsconfig.lib.json",
         "test": "jest",
-        "test:ci": "jest --ci --max-workers=2"
+        "test:ci": "jest --ci --max-workers=2",
+        "release:major": "changelog -M",
+        "release:minor": "changelog -m",
+        "release:patch": "changelog -p"
     },
     "publishConfig": {
         "access": "public"
