@@ -1,3 +1,9 @@
+#### 1.4.1 (2019-10-01)
+
+##### Bug Fixes
+
+*  inherit `mapFromUsing` mapping pair ([9d581f96](https://github.com/DynamicMapper/DynamicMapper/commit/9d581f96c16669e4ad558cf525e38d0910274f33))
+
 ### 1.4.0 (2019-10-01)
 
 ##### New Features
