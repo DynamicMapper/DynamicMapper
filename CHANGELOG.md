@@ -1,3 +1,13 @@
+### 1.4.0 (2019-10-01)
+
+##### New Features
+
+*  before and after mapping ([b5d8791e](https://github.com/DynamicMapper/DynamicMapper/commit/b5d8791e229bf1bb8a76ad8cab3f384717a9e743))
+
+##### Bug Fixes
+
+*  skip auto mapping when custom resolver is configured ([fadc397c](https://github.com/DynamicMapper/DynamicMapper/commit/fadc397c5e7357b501728d4a8c9f578d302d28fb))
+
 #### 1.3.1 (2019-09-20)
 
 ##### Bug Fixes
