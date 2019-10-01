@@ -60,6 +60,7 @@ export class PropertyMap implements IMemberMap {
         }
 
         this.customMappingFunction = this.customMappingFunction || inheritedMappedProperty.customMappingFunction;
+        this.pair = this.pair || inheritedMappedProperty.pair;
         this.condition = this.condition || inheritedMappedProperty.condition;
         this.precondition = this.precondition || inheritedMappedProperty.precondition;
         this.nullSubstitute = this.nullSubstitute || inheritedMappedProperty.nullSubstitute;
