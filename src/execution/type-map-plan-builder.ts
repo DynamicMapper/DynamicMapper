@@ -33,7 +33,7 @@ export class TypeMapPlanBuilder {
 
         const ignoredSourceMembers = this.typeMap.implicitAutoMapping ? this.getIgnoredSourceMembers() : [];
         const ignoredDestinationMembers =
-            this.typeMap.implicitAutoMapping ? this.getUnresolvableDestinationMembers() : [];
+            this.typeMap.implicitAutoMapping ? this.ignoredOrCustomResolverDestinationMembers() : [];
 
         return (source, destination, context) => {
             const subtypeMap = this.typeMap.subtypeMaps.find(map => map.condition(source));
@@ -179,11 +179,11 @@ export class TypeMapPlanBuilder {
         return members;
     }
 
-    private getUnresolvableDestinationMembers(): ReadonlyArray<MemberInfo> {
+    private ignoredOrCustomResolverDestinationMembers(): ReadonlyArray<MemberInfo> {
         const members: MemberInfo[] = [];
 
         this.typeMap.propertyMaps.forEach(cfg => {
-            if (!cfg.canResolveValue) {
+            if (!cfg.canResolveValue || cfg.isResolveConfigured) {
                 members.push(cfg.destinationMember);
             }
         });
