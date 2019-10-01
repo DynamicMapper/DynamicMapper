@@ -18,7 +18,7 @@ export class Mapper implements IRuntimeMapper {
                                destination?: TDestination): TDestination[] | TDestination {
         const func = this.configuration.getMapperFunction(pair);
 
-        return Array.isArray(source) ? source.map(s => func(s, destination, this.defaultContext)) :
-            func(source, destination, this.defaultContext);
+        return Array.isArray(source) ? source.map(s => func(s, destination!, this.defaultContext)) :
+            func(source, destination!, this.defaultContext);
     }
 }

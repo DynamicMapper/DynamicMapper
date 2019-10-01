@@ -1,6 +1,6 @@
 import {
     IPropertyMapConfiguration,
-    ITypeMapConfiguration,
+    ITypeMapConfiguration, MapperFunction,
     MappingFunction,
     Type,
     ValueTransformer
@@ -81,6 +81,16 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
     mapSubtype(pair: MappingPair<TSource, TDestination>, discriminatorCondition: (source: TSource) => boolean): this {
         this.typeMapActions.push(tm => tm.addPolymorphicMap(discriminatorCondition, pair));
         this.include(pair);
+        return this;
+    }
+
+    beforeMap(mapper: MapperFunction<TSource, TDestination, any>): this {
+        this.typeMapActions.push(tm => tm.addBeforeMap(mapper));
+        return this;
+    }
+
+    afterMap(mapper: MapperFunction<TSource, TDestination, any>): this {
+        this.typeMapActions.push(tm => tm.addAfterMap(mapper));
         return this;
     }
 }

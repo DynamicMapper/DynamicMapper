@@ -45,6 +45,8 @@ export class TypeMapPlanBuilder {
 
             const dest = destination ? destination : destinationFunc(source);
 
+            this.typeMap.beforeMapFunctions.forEach(fn => fn(source, dest, context));
+
             if (this.typeMap.implicitAutoMapping && source) {
                 for (const key of Object.keys(source)) {
                     // auto map only when both source and destination are not ignored
@@ -57,6 +59,8 @@ export class TypeMapPlanBuilder {
             for (const fn of assignmentFunc) {
                 fn(source, dest, context);
             }
+
+            this.typeMap.afterMapFunctions.forEach(fn => fn(source, dest, context));
 
             return dest;
         };

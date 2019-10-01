@@ -73,9 +73,10 @@ export type ValueTransformer<TValue = any> = (value: TValue) => TValue;
 
 export type MappingFunction<TSource = any, TDestination = any> = (source: TSource) => TDestination;
 
-export type MapperFunction<TSource = any, TDestination = any> = (source: TSource,
-                                                                 destination: TDestination | null | undefined,
-                                                                 context: ResolutionContext) => TDestination;
+export type MapperFunction<TSource = any, TDestination = any, TResult = TDestination> = (
+    source: TSource,
+    destination: TDestination,
+    context: ResolutionContext) => TResult;
 
 export interface IMemberMap {
     condition: ConditionExpression;

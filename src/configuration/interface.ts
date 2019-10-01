@@ -1,6 +1,6 @@
 import {
     IProfileExpression, ISourceMemberConfigurationExpression,
-    ITypeMapConfiguration,
+    ITypeMapConfiguration, MapperFunction,
     MappingFunction,
     ValueTransformer
 } from '../interface';
@@ -38,6 +38,16 @@ export interface IMappingExpressionBase<TSource, TDestination> {
      * Adds a subtype mapping that handles mapping if provided discriminator condition matches.
      */
     mapSubtype(pair: MappingPair<TSource, TDestination>, discriminatorCondition: (source: TSource) => boolean): this;
+
+    /**
+     * Executes a custom mapping function before member mapping.
+     */
+    beforeMap(mapper: MapperFunction<TSource, TDestination, any>): this;
+
+    /**
+     * Executes a custom mapping function after member mapping.
+     */
+    afterMap(mapper: MapperFunction<TSource, TDestination, any>): this;
 }
 
 export interface IMappingExpression<TSource, TDestination> extends IMappingExpressionBase<TSource, TDestination> {

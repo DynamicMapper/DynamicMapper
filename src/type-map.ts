@@ -22,6 +22,8 @@ export class TypeMap {
     get subtypeMaps(): ReadonlyArray<ISubtypeMap> { return this._subtypeMaps; }
     get mapFunction(): MapperFunction<any, any> { return this._mapFunction; }
     get valueTransformers(): ReadonlyArray<ValueTransformer> { return this._valueTransformers; }
+    get beforeMapFunctions(): ReadonlySet<MapperFunction> { return this._beforeMapFunctions; }
+    get afterMapFunctions(): ReadonlySet<MapperFunction> { return this._afterMapFunctions; }
     get includedBaseTypes(): ReadonlySet<MappingPair<any, any>> { return this._includedBaseTypes; }
     get includedDerivedTypes(): ReadonlySet<MappingPair<any, any>> { return this._includedDerivedTypes; }
     get hasDerivedTypesToInclude(): boolean {
@@ -43,6 +45,8 @@ export class TypeMap {
     private readonly _includedBaseTypes = new Set<MappingPair<any, any>>();
     private readonly _includedDerivedTypes = new Set<MappingPair<any, any>>();
     private readonly _inheritedTypeMaps = new Set<TypeMap>();
+    private readonly _beforeMapFunctions = new Set<MapperFunction>();
+    private readonly _afterMapFunctions = new Set<MapperFunction>();
     private readonly _sourceMemberConfigs = new Map<MemberInfo, SourceMemberConfig>();
     private readonly _subtypeMaps: ISubtypeMap[] = [];
     private _mapFunction: MapperFunction<any, any>;
@@ -77,6 +81,14 @@ export class TypeMap {
 
     addInheritedMap(inheritedTypeMap: TypeMap): void {
         this._inheritedTypeMaps.add(inheritedTypeMap);
+    }
+
+    addBeforeMap(mapper: MapperFunction): void {
+        this._beforeMapFunctions.add(mapper);
+    }
+
+    addAfterMap(mapper: MapperFunction): void {
+        this._afterMapFunctions.add(mapper);
     }
 
     seal(configurationProvider: IConfigurationProvider): void {
@@ -135,6 +147,8 @@ export class TypeMap {
             }
         });
 
+        inheritedTypeMap._beforeMapFunctions.forEach(fn => this._beforeMapFunctions.add(fn));
+        inheritedTypeMap._afterMapFunctions.forEach(fn => this._afterMapFunctions.add(fn));
         this._valueTransformers.unshift(...inheritedTypeMap.valueTransformers);
 
         // apply inherited source member configs
