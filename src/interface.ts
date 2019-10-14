@@ -204,7 +204,9 @@ export interface IProfileExpression {
      */
     createStrictMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
-        config: Required<MappingMembers<TSource, TDestination>>): IMappingExpression<TSource, TDestination>;
+        config: Required<MappingMembers<TSource, TDestination>>,
+        allMemberConfig?: (opt: IMemberConfigurationExpression<TSource, TDestination, any>) => void
+    ): IMappingExpression<TSource, TDestination>;
 }
 
 export interface IMapper {

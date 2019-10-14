@@ -17,9 +17,9 @@ describe('Strict map', () => {
 
     const mapper = new MapperConfiguration(cfg => {
         cfg.createStrictMap(pair, {
-            other: opt => opt.mapFrom(src => src.value),
-            another: opt => opt.mapFrom(src => src.value.toString())
-        })
+            another: opt => opt.mapFrom(src => src.value.toString()),
+            other: opt => opt.mapFrom(src => src.value)
+        });
     }).createMapper();
 
     it('should map all destination members', () => {
@@ -30,8 +30,8 @@ describe('Strict map', () => {
         const destination = mapper.map(pair, source);
 
         expect(destination).toEqual({
+            another: '123',
             other: 123,
-            another: '123'
         });
     });
 });

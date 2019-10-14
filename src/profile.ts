@@ -1,7 +1,7 @@
 import { AutoMappingExpression } from './configuration/auto-mapping-expression';
 import { MappingExpressionBase } from './configuration/mapping-expression-base';
 import {
-    AutoMappableProperties, ExplicitProperties,
+    AutoMappableProperties, ExplicitProperties, IMemberConfigurationExpression,
     IProfileExpression,
     ITypeMapConfiguration,
     MappingMembers, NormalizeIntersection,
@@ -39,18 +39,25 @@ export abstract class Profile implements IProfileExpression, IProfileConfigurati
 
     createStrictMap<TSource, TDestination>(
         pair: MappingPair<TSource, TDestination>,
-        config: Required<MappingMembers<TSource, TDestination>>
+        config: Required<MappingMembers<TSource, TDestination>>,
+        allMemberConfig?: (opt: IMemberConfigurationExpression<TSource, TDestination, any>) => void
     ): IMappingExpression<TSource, TDestination> {
-        return this.configureMappingExpression(new MappingExpression<TSource, TDestination>(pair), config);
+        return this.configureMappingExpression(
+            new MappingExpression<TSource, TDestination>(pair), config, allMemberConfig);
     }
 
     private configureMappingExpression<
         TExpression extends MappingExpressionBase<TSource, TDestination>, TSource, TDestination
     >(
         expression: TExpression,
-        config: Partial<MappingMembers<TSource, TDestination>>
+        config: Partial<MappingMembers<TSource, TDestination>>,
+        allMemberConfig?: (opt: IMemberConfigurationExpression<TSource, TDestination, any>) => void
     ): TExpression {
         for (const member of Object.keys(config)) {
+            if (allMemberConfig) {
+                expression.forMember(member as keyof TDestination, allMemberConfig);
+            }
+
             expression.forMember(member as keyof TDestination, config[member]);
         }
 
