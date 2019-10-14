@@ -160,7 +160,7 @@ export class TypeMapPlanBuilder {
             throw new Error(`Unable to detect source member for destination member "${memberMap.destinationMember.toString()}"`);
         }
 
-        if (memberMap.nullSubstitute != null) {
+        if (typeof memberMap.nullSubstitute !== 'undefined') {
             const prevResolver = resolver;
             resolver = (source: any, destination: any, context: ResolutionContext) => {
                 const value = prevResolver(source, destination, context);
