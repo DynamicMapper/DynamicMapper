@@ -154,7 +154,7 @@ export interface IMemberConfigurationExpression<TSource, TDestination, TMember> 
     /**
      * Substitute a custom value when the source member resolves as null or undefined.
      */
-    nullSubstitute(nullSubstitute: TMember | null): void;
+    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember | null): void;
 
     /**
      * Ignore this member during mapping.

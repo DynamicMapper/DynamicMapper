@@ -164,7 +164,16 @@ export class TypeMapPlanBuilder {
             const prevResolver = resolver;
             resolver = (source: any, destination: any, context: ResolutionContext) => {
                 const value = prevResolver(source, destination, context);
-                return value == null ? memberMap.nullSubstitute : value;
+
+                if (value == null) {
+                    if (typeof memberMap.nullSubstitute === 'function') {
+                        return memberMap.nullSubstitute(source);
+                    }
+
+                    return memberMap.nullSubstitute;
+                }
+
+                return value;
             };
         }
 
