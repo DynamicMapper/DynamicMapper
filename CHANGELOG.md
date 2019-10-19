@@ -1,3 +1,9 @@
+### 1.6.0 (2019-10-19)
+
+##### New Features
+
+*  mapped properties that resolves to `nil` are now mapped to `null` instead of `undefined` by default ([57ae23d3](https://github.com/DynamicMapper/DynamicMapper/commit/57ae23d3619cad93245c9338291674ca7f847cbb))
+
 ### 1.5.0 (2019-10-19)
 
 ##### New Features
