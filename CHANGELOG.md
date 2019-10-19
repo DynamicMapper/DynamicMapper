@@ -1,3 +1,11 @@
+### 1.5.0 (2019-10-19)
+
+##### New Features
+
+*  `nullSubstitute` value factory ([10ef8124](https://github.com/DynamicMapper/DynamicMapper/commit/10ef8124694b94511effa6fd0a3c5e0097c9fc82))
+*  option to set all member configuration in strict map mapper ([b8f45a20](https://github.com/DynamicMapper/DynamicMapper/commit/b8f45a20e08aad0eb0f54b42d06b9f3e46fd3103))
+*  allow `nullSubstitute` to null ([386d08f6](https://github.com/DynamicMapper/DynamicMapper/commit/386d08f65a89ed5b473230291810216437f54a4e))
+
 #### 1.4.1 (2019-10-01)
 
 ##### Bug Fixes
