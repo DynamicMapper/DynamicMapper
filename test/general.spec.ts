@@ -50,4 +50,37 @@ describe('General mapping', () => {
             expect(destination[1].someValue).toBe('bar');
         });
     });
+
+    describe('when mapping nil properties', () => {
+        class ModelObject {
+            value: string | null;
+        }
+
+        class ModelDto {
+            value: string | null;
+        }
+
+        const pair = new MappingPair(ModelObject, ModelDto);
+
+        const mapper = new MapperConfiguration(cfg => {
+            cfg.createMap(pair, {
+                value: opt => opt.auto()
+            });
+        }).createMapper();
+
+        it('should map to null', () => {
+            const source = new ModelObject();
+
+            expect(mapper.map(pair, source)).toEqual({
+                value: null
+            });
+
+            source.value = null;
+
+            expect(mapper.map(pair, source)).toEqual({
+                value: null
+            });
+        });
+    });
+
 });

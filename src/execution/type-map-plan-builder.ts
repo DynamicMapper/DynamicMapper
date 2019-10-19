@@ -160,24 +160,19 @@ export class TypeMapPlanBuilder {
             throw new Error(`Unable to detect source member for destination member "${memberMap.destinationMember.toString()}"`);
         }
 
-        if (typeof memberMap.nullSubstitute !== 'undefined') {
-            const prevResolver = resolver;
-            resolver = (source: any, destination: any, context: ResolutionContext) => {
-                const value = prevResolver(source, destination, context);
+        return (source: any, destination: any, context: ResolutionContext) => {
+            const value = resolver(source, destination, context);
 
-                if (value == null) {
-                    if (typeof memberMap.nullSubstitute === 'function') {
-                        return memberMap.nullSubstitute(source);
-                    }
-
-                    return memberMap.nullSubstitute;
+            if (value == null && typeof memberMap.nullSubstitute !== 'undefined') {
+                if (typeof memberMap.nullSubstitute === 'function') {
+                    return memberMap.nullSubstitute(source);
                 }
 
-                return value;
-            };
-        }
+                return memberMap.nullSubstitute;
+            }
 
-        return resolver;
+            return value == null ? null : value;
+        };
     }
 
     private getIgnoredSourceMembers(): ReadonlyArray<MemberInfo> {

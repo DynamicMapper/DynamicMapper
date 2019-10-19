@@ -85,7 +85,7 @@ export interface IMemberMap {
     valueTransformers: ReadonlyArray<ValueTransformer<any>>;
     sourceMembers: ReadonlyArray<MemberInfo>;
     destinationMember: MemberInfo;
-    nullSubstitute: any | null;
+    nullSubstitute: any;
     pair: MappingPair<any, any> | undefined;
 }
 
@@ -154,7 +154,7 @@ export interface IMemberConfigurationExpression<TSource, TDestination, TMember> 
     /**
      * Substitute a custom value when the source member resolves as null or undefined.
      */
-    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember | null): void;
+    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember): void;
 
     /**
      * Ignore this member during mapping.

@@ -49,7 +49,7 @@ export class MemberConfigurationExpression<TSource, TDestination, TMember>
         this.propertyMapActions.push(pm => pm.precondition = condition);
     }
 
-    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember | null): void {
+    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember): void {
         this.propertyMapActions.push(pm => pm.nullSubstitute = nullSubstitute);
     }
 

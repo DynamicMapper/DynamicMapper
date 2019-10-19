@@ -10,7 +10,7 @@ export class PropertyMap implements IMemberMap {
 
     public customMappingFunction: MappingFunction;
 
-    public nullSubstitute: any | null;
+    public nullSubstitute: any;
 
     public ignored: boolean;
 

@@ -21,14 +21,14 @@ describe('Strict map with all member config', () => {
                 opt.auto();
                 opt.nullSubstitute(123);
             }
-        }, opt => opt.nullSubstitute(null));
+        }, opt => opt.nullSubstitute('empty'));
     }).createMapper();
 
-    it('should substitute all nil members to null', () => {
+    it('should substitute all nil members to custom value', () => {
         const destination = mapper.map(pair, new Source());
 
         expect(destination).toEqual({
-            another: null,
+            another: 'empty',
             other: 123
         });
     });
