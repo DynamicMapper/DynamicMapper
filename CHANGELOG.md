@@ -1,3 +1,9 @@
+#### 1.6.1 (2019-10-22)
+
+##### Bug Fixes
+
+*  properties of array type with custom mapping are now mapped correctly ([64f3be7f](https://github.com/DynamicMapper/DynamicMapper/commit/64f3be7f26fda520b42919082a963cec11361697))
+
 ### 1.6.0 (2019-10-19)
 
 ##### New Features
