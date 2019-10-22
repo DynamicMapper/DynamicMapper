@@ -51,12 +51,12 @@ const configuration = new MapperConfiguration(cfg => {
 
 const mapper = configuration.createMapper();
 
-const customer: CustomerDto = {
+const customerDto: CustomerDto = {
     firstName: 'John',
     lastName: 'Doe'
 };
 
-const dto = mapper.map(CustomerDtoToCustomer, customer);
+const customer = mapper.map(CustomerDtoToCustomer, customerDto);
 // {
 //      firstName: 'John',
 //      lastName: 'Doe',
