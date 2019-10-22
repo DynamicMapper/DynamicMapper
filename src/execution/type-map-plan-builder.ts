@@ -136,9 +136,6 @@ export class TypeMapPlanBuilder {
         if (typeMap) {
             if (!typeMap.hasDerivedTypesToInclude) {
                 typeMap.seal(this.configurationProvider);
-
-                return (source, destination, context: ResolutionContext) =>
-                    typeMap.mapFunction(source, destination ? destination[destinationMember] : null, context);
             }
 
             return (source, destination, context: ResolutionContext) =>
