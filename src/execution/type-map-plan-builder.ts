@@ -107,7 +107,7 @@ export class TypeMapPlanBuilder {
             ...this.typeMap.profile.valueTransformers
         ]);
 
-        const valueResolver = (source, destination, context) => {
+        const valueResolver = (source: any, destination: any, context: ResolutionContext) => {
             return [...resolvers, transformer].reduce((prev, curr) => curr(prev, destination, context), source);
         };
 
@@ -127,7 +127,7 @@ export class TypeMapPlanBuilder {
     }
 
     private createTransformerFn(transformers: ValueTransformer[]) {
-        return source => transformers.reduce((prev, curr) => curr(prev), source);
+        return (source: any) => transformers.reduce((prev, curr) => curr(prev), source);
     }
 
     private mapFunction(pair: MappingPair<any, any>, destinationMember: MemberInfo): MapperFunction {

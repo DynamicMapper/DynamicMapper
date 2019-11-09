@@ -58,7 +58,7 @@ export abstract class Profile implements IProfileExpression, IProfileConfigurati
                 expression.forMember(member as keyof TDestination, allMemberConfig);
             }
 
-            expression.forMember(member as keyof TDestination, config[member]);
+            expression.forMember(member as keyof TDestination, (config as any)[member]);
         }
 
         this.typeMapConfigs.push(expression);

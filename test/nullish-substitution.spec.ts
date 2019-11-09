@@ -1,10 +1,10 @@
 import { MapperConfiguration, MappingPair } from '../src';
 
-describe('Null substitution', () => {
+describe('Nullish substitution', () => {
 
     class Source {
         another: string;
-        constructor(public value?: number | null) {}
+        constructor(public value: number) {}
     }
 
     class Destination {
@@ -33,16 +33,16 @@ describe('Null substitution', () => {
         substitution.mockClear();
     });
 
-    it('should substitute nil values', () => {
+    it('should substitute nullish values', () => {
         substitution.mockImplementation(src => '123');
 
-        const source = new Source();
+        const source = new Source(null!);
         const destination = mapper.map(pair, source);
         expect(destination.value).toBe(1);
         expect(destination.another).toBe('123');
         expect(substitution).toHaveBeenCalledWith(source);
 
-        const destination2 = mapper.map(pair, new Source(null));
+        const destination2 = mapper.map(pair, new Source(null!));
         expect(destination2.value).toBe(1);
         expect(destination2.another).toBe('123');
     });

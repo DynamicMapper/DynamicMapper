@@ -3,7 +3,7 @@ import { MapperConfiguration, MappingPair } from '../src';
 
 describe('Before After Mapping', () => {
     class Source {
-        constructor(public value?: number) {}
+        constructor(public value: number) {}
     }
 
     class Destination {
@@ -22,7 +22,7 @@ describe('Before After Mapping', () => {
                 .afterMap(after);
         }).createMapper();
 
-        mapper.map(pair, new Source());
+        mapper.map(pair, new Source(1));
 
         expect(after).toHaveBeenCalledTimes(1);
         expect(before).toHaveBeenCalledTimes(1);
@@ -44,7 +44,7 @@ describe('Before After Mapping', () => {
                 .afterMap(after2);
         }).createMapper();
 
-        mapper.map(pair, new Source());
+        mapper.map(pair, new Source(1));
 
         expect(after).toHaveBeenCalledTimes(1);
         expect(after2).toHaveBeenCalledTimes(1);
