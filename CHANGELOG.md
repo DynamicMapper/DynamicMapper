@@ -1,3 +1,9 @@
+#### 1.6.2 (2019-11-09)
+
+##### Bug Fixes
+
+*  allow auto mapping for optional or nullish destination members rather than optional or nullish source members ([f09ec5c2](https://github.com/DynamicMapper/DynamicMapper/commit/f09ec5c236b09ddc8635a4f8a5fb91842e3f1a9e))
+
 #### 1.6.1 (2019-10-22)
 
 ##### Bug Fixes
