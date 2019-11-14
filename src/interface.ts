@@ -124,7 +124,7 @@ export interface IMemberConfigurationExpression<TSource, TDestination, TMember> 
     /**
      * Maps destination member using a custom value resolver.
      */
-    mapFrom(mappingFunction: (source: TSource) => TMember): void;
+    mapFrom(mappingFunction: (source: TSource) => TMember): this;
 
     /**
      * Maps destination member via explicit mapping pair. Used when mapping nested objects.
@@ -134,27 +134,27 @@ export interface IMemberConfigurationExpression<TSource, TDestination, TMember> 
         pair: MappingPair<
             TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember,
             TMember extends Array<any> ? TMember[0] : TMember
-        >): void;
+        >): this;
 
     /**
      * Apply a transformation function after any resolved destination member.
      */
-    addTransform(transformer: ValueTransformer<TMember>): void;
+    addTransform(transformer: ValueTransformer<TMember>): this;
 
     /**
      * Conditionally map this member.
      */
-    condition(condition: ConditionExpression<TSource, TDestination>): void;
+    condition(condition: ConditionExpression<TSource, TDestination>): this;
 
     /**
      * Conditionally map this member. Evaluated before value resolver.
      */
-    preCondition(condition: ConditionExpression<TSource, TDestination>): void;
+    preCondition(condition: ConditionExpression<TSource, TDestination>): this;
 
     /**
      * Substitute a custom value when the source member resolves as null or undefined.
      */
-    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember): void;
+    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember): this;
 
     /**
      * Ignore this member during mapping.
@@ -167,7 +167,7 @@ export interface IAutoMemberConfigurationExpression<TSource, TDestination, TMemb
     /**
      * Enables auto mapping for this member.
      */
-    auto(): void;
+    auto(): this;
 }
 
 export interface ISourceMemberConfigurationExpression {

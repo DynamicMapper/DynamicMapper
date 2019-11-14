@@ -23,9 +23,10 @@ export class MemberConfigurationExpression<TSource, TDestination, TMember>
         this.apply(propertyMap);
     }
 
-    mapFrom(mappingFunction: (source: TSource) => TMember): void {
+    mapFrom(mappingFunction: (source: TSource) => TMember): this {
         this.sourceMember = mappingFunction;
         this.propertyMapActions.push(pm => pm.mapFrom(mappingFunction));
+        return this;
     }
 
     mapFromUsing<TSourceMember>(
@@ -33,32 +34,38 @@ export class MemberConfigurationExpression<TSource, TDestination, TMember>
         pair: MappingPair<
             TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember,
             TMember extends Array<any> ? TMember[0] : TMember
-        >): void {
+        >): this {
         this.propertyMapActions.push(pm => pm.mapFromUsing(mappingFunction, pair));
+        return this;
     }
 
-    addTransform(transformer: ValueTransformer<TMember>): void {
+    addTransform(transformer: ValueTransformer<TMember>): this {
         this.propertyMapActions.push(pm => pm.addValueTransformation(transformer));
+        return this;
     }
 
-    condition(condition: ConditionExpression<TSource, TDestination>): void {
+    condition(condition: ConditionExpression<TSource, TDestination>): this {
         this.propertyMapActions.push(pm => pm.condition = condition);
+        return this;
     }
 
-    preCondition(condition: ConditionExpression<TSource, TDestination>): void {
+    preCondition(condition: ConditionExpression<TSource, TDestination>): this {
         this.propertyMapActions.push(pm => pm.precondition = condition);
+        return this;
     }
 
-    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember): void {
+    nullSubstitute(nullSubstitute: ((src: TSource) => TMember) | TMember): this {
         this.propertyMapActions.push(pm => pm.nullSubstitute = nullSubstitute);
+        return this;
     }
 
     ignore(): void {
         this.propertyMapActions.push(pm => pm.ignored = true);
     }
 
-    auto(): void {
+    auto(): this {
         this.propertyMapActions.push(pm => pm.chainMembers([this.destinationMember]));
+        return this;
     }
 
     private apply(propertyMap: PropertyMap): void {
