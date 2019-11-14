@@ -1,3 +1,9 @@
+### 1.7.0 (2019-11-14)
+
+##### New Features
+
+*  member configuration chaining (`opt => opt.auto().addTransform(d => d + '!').nullSubstitute(false)`) ([6ee55fdf](https://github.com/DynamicMapper/DynamicMapper/commit/6ee55fdf6a101f42899b13b5410037ce6e90d9e1))
+
 #### 1.6.2 (2019-11-09)
 
 ##### Bug Fixes
