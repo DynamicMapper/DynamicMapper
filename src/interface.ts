@@ -19,7 +19,7 @@ type MappableKeys<T> = Omit<T, Extract<keyof T, MethodKeys<T>>>;
  * Picks keys contained in both A and B and whose values have same type.
  */
 export type AutoMappingKeys<A, B> = {
-    [K in keyof A & keyof B]: A[K] extends B[K] ? K : never;
+    [K in keyof A & keyof B]: NonNullable<A[K]> extends NonNullable<B[K]> ? K : never;
 }[keyof A & keyof B];
 
 /**
