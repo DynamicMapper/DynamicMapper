@@ -1,3 +1,9 @@
+### 1.8.0 (2020-03-30)
+
+##### New Features
+
+*  allow to use `.auto()` when non nullable types matches (strict null checking) ([8d77c342](https://github.com/DynamicMapper/DynamicMapper/commit/8d77c3428f13386036fc8115eea459b9e3ed5542))
+
 ### 1.7.0 (2019-11-14)
 
 ##### New Features
