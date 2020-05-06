@@ -31,10 +31,6 @@ export class TypeMapPlanBuilder {
             ...this.typeMap.profile.valueTransformers
         ]);
 
-        const ignoredSourceMembers = this.typeMap.implicitAutoMapping ? this.getIgnoredSourceMembers() : [];
-        const ignoredDestinationMembers =
-            this.typeMap.implicitAutoMapping ? this.ignoredOrCustomResolverDestinationMembers() : [];
-
         return (source, destination, context) => {
             const subtypeMap = this.typeMap.subtypeMaps.find(map => map.condition(source));
 
@@ -49,8 +45,19 @@ export class TypeMapPlanBuilder {
 
             if (this.typeMap.implicitAutoMapping && source) {
                 for (const key of Object.keys(source)) {
-                    // auto map only when both source and destination are not ignored
-                    if (!ignoredSourceMembers.includes(key) && !ignoredDestinationMembers.includes(key)) {
+                    const sourceMap = this.typeMap.sourceMemberConfigs.get(key);
+
+                    if (sourceMap?.isIgnored()) {
+                        continue;
+                    }
+
+                    const propertyMap = this.typeMap.propertyMaps.get(key);
+
+                    if (propertyMap) {
+                        if (propertyMap.canResolveValue && !propertyMap.isResolveConfigured) {
+                            this.tryPropertyMap(propertyMap, propertyMap.destinationMember)(source, dest, context);
+                        }
+                    } else {
                         dest[key] = transformerFunc(source[key]);
                     }
                 }
@@ -170,29 +177,5 @@ export class TypeMapPlanBuilder {
 
             return value == null ? null : value;
         };
-    }
-
-    private getIgnoredSourceMembers(): ReadonlyArray<MemberInfo> {
-        const members: MemberInfo[] = [];
-
-        this.typeMap.sourceMemberConfigs.forEach(cfg => {
-            if (cfg.isIgnored()) {
-                members.push(cfg.sourceMember);
-            }
-        });
-
-        return members;
-    }
-
-    private ignoredOrCustomResolverDestinationMembers(): ReadonlyArray<MemberInfo> {
-        const members: MemberInfo[] = [];
-
-        this.typeMap.propertyMaps.forEach(cfg => {
-            if (!cfg.canResolveValue || cfg.isResolveConfigured) {
-                members.push(cfg.destinationMember);
-            }
-        });
-
-        return members;
     }
 }
