@@ -1,3 +1,9 @@
+### 1.9.0 (2020-05-06)
+
+##### New Features
+
+*  allow to use pre-condition and condition on auto mapping pairs ([46e9d886](https://github.com/DynamicMapper/DynamicMapper/commit/46e9d886f6692788c05661d0c4800fa8022cbed4))
+
 ### 1.8.0 (2020-03-30)
 
 ##### New Features
