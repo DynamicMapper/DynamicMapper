@@ -7,7 +7,7 @@ import {
     ValueTransformer
 } from '../interface';
 import { TypeMap } from '../type-map';
-import { isType, MappingPair } from '../mapping-pair';
+import { isSymbol, isType, MappingPair } from '../mapping-pair';
 import { ResolutionContext } from '../resolution-context';
 
 export class TypeMapPlanBuilder {
@@ -78,7 +78,7 @@ export class TypeMapPlanBuilder {
             return this.typeMap.customCtorFunction;
         } else if (isType(this.typeMap.destinationType)) {
             return () => new (this.typeMap.destinationType as Type<any>)();
-        } else if (typeof this.typeMap.destinationType === 'symbol') {
+        } else if (isSymbol(this.typeMap.destinationType)) {
             return () => ({});
         }
 
