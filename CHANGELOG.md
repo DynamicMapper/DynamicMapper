@@ -1,3 +1,9 @@
+#### 1.9.1 (2020-05-20)
+
+##### Bug Fixes
+
+*  correctly detect symbols in IE ([fa8bc14e](https://github.com/DynamicMapper/DynamicMapper/commit/fa8bc14e88da4f6db33a57bd5e5b53c7b3224588))
+
 ### 1.9.0 (2020-05-06)
 
 ##### New Features
