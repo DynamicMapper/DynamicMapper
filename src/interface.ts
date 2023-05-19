@@ -134,7 +134,7 @@ export interface IMemberConfigurationExpression<TSource, TDestination, TMember> 
         pair: MappingPair<
             TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember,
             TMember extends Array<any> ? TMember[0] : TMember
-        >): this;
+        > | MappingPair<TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember, TMember>): this;
 
     /**
      * Apply a transformation function after any resolved destination member.
