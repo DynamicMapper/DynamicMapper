@@ -5,7 +5,7 @@ export class ResolutionContext implements IRuntimeMapper {
     constructor(public readonly defaultContext: IRuntimeMapper) {}
 
     map<TSource, TDestination>(pair: MappingPair<TSource, TDestination>, source: TSource,
-                               destination?: TDestination): TDestination;
+                               destination?: Partial<TDestination>): TDestination;
     map<TSource, TDestination>(pair: MappingPair<TSource, TDestination>, sources: TSource[],
                                destination?: TDestination): TDestination[];
     map<TSource, TDestination>(pair: MappingPair<TSource, TDestination>, source: TSource[] | TSource,

@@ -31,7 +31,7 @@ export class TypeMap {
     }
     get sourceMemberConfigs(): ReadonlyMap<MemberInfo, SourceMemberConfig> { return this._sourceMemberConfigs; }
 
-    public customMapFunction: MappingFunction<any, any>;
+    public customMapFunction: MapperFunction<any, any>;
     public customCtorFunction: MappingFunction<any, any>;
 
     public readonly sourceType: Type<any> | symbol = this.types.source;

@@ -56,7 +56,7 @@ export abstract class MappingExpressionBase<TSource, TDestination> implements
         return this;
     }
 
-    convertUsing(mappingFunction: MappingFunction<TSource, TDestination>): void {
+    convertUsing(mappingFunction: MapperFunction<TSource, TDestination>): void {
         this.typeMapActions.push(tm => tm.customMapFunction = mappingFunction);
     }
 

@@ -27,7 +27,7 @@ export interface IMappingExpressionBase<TSource, TDestination> {
     /**
      * Skips normal member mapping and performs conversion by provided mapping function.
      */
-    convertUsing(mappingFunction: MappingFunction<TSource, TDestination>): void;
+    convertUsing(mappingFunction: MapperFunction<TSource, TDestination>): void;
 
     /**
      * Instantiate destination from provided function.
