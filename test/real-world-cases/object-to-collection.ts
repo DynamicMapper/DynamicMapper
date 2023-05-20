@@ -34,6 +34,8 @@ describe('Object to Collection', () => {
 
     const SourceToDestination = new MappingPair<IApiContactCollection, IContact[]>();
     const ApiContactToContact = new MappingPair<IApiContact, IContact>();
+    const ContactToApi = new MappingPair<IContact, IApiContact>();
+    const ContactsToCollection = new MappingPair<IContact[], IApiContactCollection>();
 
     const mapper = new MapperConfiguration(cfg => {
         cfg.createStrictMap(ApiContactToContact, {
@@ -62,6 +64,19 @@ describe('Object to Collection', () => {
             }
 
             return contacts;
+        });
+
+        cfg.createMap(ContactsToCollection).convertUsing((src, _, ctx) => {
+            return src.reduce((acc, x) => {
+                if (x.contactType === ContactType.Admin) {
+                    acc.adminContact = ctx.map(ContactToApi, x);
+                } else if (x.contactType === ContactType.Tech) {
+                    acc.techContact = ctx.map(ContactToApi, x);
+                } else if (x.contactType === ContactType.Registrant) {
+                    acc.registrantContact = ctx.map(ContactToApi, x);
+                }
+                return acc;
+            }, {} as IApiContactCollection);
         });
     }).createMapper();
 
@@ -124,5 +139,64 @@ describe('Object to Collection', () => {
                 phoneCode: '4'
             }
         ]);
+    });
+
+    it('should support reverse mapping', () => {
+        const result = mapper.map(ContactsToCollection, [
+            {
+                contactType: ContactType.Admin,
+                fax: '1234567890',
+                faxCode: '2',
+                firstName: 'John',
+                lastName: 'Doe',
+                phone: '1234567890',
+                phoneCode: '1'
+            },
+            {
+                contactType: ContactType.Tech,
+                fax: '1234567890',
+                faxCode: '5',
+                firstName: 'Jane',
+                lastName: 'Doe',
+                phone: '098654321',
+                phoneCode: '6'
+            },
+            {
+                contactType: ContactType.Registrant,
+                fax: '000-000-000',
+                faxCode: '2',
+                firstName: 'John',
+                lastName: 'Foo',
+                phone: '11122233',
+                phoneCode: '4'
+            }
+        ]);
+
+        expect(result).toEqual({
+            adminContact: {
+                firstName: 'John',
+                lastName: 'Doe',
+                phone: '1234567890',
+                phoneCountryCode: '1',
+                fax: '1234567890',
+                faxCountryCode: '2'
+            },
+            techContact: {
+                firstName: 'Jane',
+                lastName: 'Doe',
+                phone: '098654321',
+                phoneCountryCode: '6',
+                fax: '1234567890',
+                faxCountryCode: '5'
+            },
+            registrantContact: {
+                firstName: 'John',
+                lastName: 'Foo',
+                phone: '11122233',
+                phoneCountryCode: '4',
+                fax: '000-000-000',
+                faxCountryCode: '2'
+            },
+        });
     });
 });
