@@ -1,4 +1,4 @@
-import { MapperConfiguration, MappingPair } from '../../src';
+import { ArrayToObjectMappingPair, MapperConfiguration, MappingPair } from '../../src';
 
 describe('Object to Collection', () => {
     interface IApiContact {
@@ -35,7 +35,7 @@ describe('Object to Collection', () => {
     const SourceToDestination = new MappingPair<IApiContactCollection, IContact[]>();
     const ApiContactToContact = new MappingPair<IApiContact, IContact>();
     const ContactToApi = new MappingPair<IContact, IApiContact>();
-    const ContactsToCollection = new MappingPair<IContact[], IApiContactCollection>();
+    const ContactsToCollection = new ArrayToObjectMappingPair<IContact[], IApiContactCollection>();
 
     const mapper = new MapperConfiguration(cfg => {
         cfg.createStrictMap(ApiContactToContact, {
@@ -66,17 +66,19 @@ describe('Object to Collection', () => {
             return contacts;
         });
 
-        cfg.createMap(ContactsToCollection).convertUsing((src, _, ctx) => {
-            return src.reduce((acc, x) => {
-                if (x.contactType === ContactType.Admin) {
-                    acc.adminContact = ctx.map(ContactToApi, x);
-                } else if (x.contactType === ContactType.Tech) {
-                    acc.techContact = ctx.map(ContactToApi, x);
-                } else if (x.contactType === ContactType.Registrant) {
-                    acc.registrantContact = ctx.map(ContactToApi, x);
-                }
-                return acc;
-            }, {} as IApiContactCollection);
+        cfg.createMap(ContactsToCollection, {
+            adminContact: opts => opts.mapFromUsing(x => x.find(y => y.contactType === ContactType.Admin), ContactToApi),
+            techContact: opts => opts.mapFromUsing(x => x.find(y => y.contactType === ContactType.Tech), ContactToApi),
+            registrantContact: opts => opts.mapFromUsing(x => x.find(y => y.contactType === ContactType.Registrant), ContactToApi),
+        });
+
+        cfg.createStrictMap(ContactToApi, {
+            phoneCountryCode: opts => opts.mapFrom(x => x.phoneCode),
+            faxCountryCode: opts => opts.mapFrom(x => x.faxCode),
+            firstName: opts => opts.auto(),
+            lastName: opts => opts.auto(),
+            phone: opts => opts.auto(),
+            fax: opts => opts.auto(),
         });
     }).createMapper();
 

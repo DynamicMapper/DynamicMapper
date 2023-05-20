@@ -18,3 +18,5 @@ export class MappingPair<S, D> {
         return `[MappingPair<${this.source.toString()}, ${this.destination.toString()}>]`;
     }
 }
+
+export class ArrayToObjectMappingPair<S extends Array<unknown>, D> extends MappingPair<S, D> {}
