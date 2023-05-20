@@ -19,7 +19,11 @@ export class Mapper implements IRuntimeMapper {
         const func = this.configuration.getMapperFunction(pair);
 
         if (pair instanceof ArrayToObjectMappingPair) {
-            return this.mapArrayToObject(pair as ArrayToObjectMappingPair<TSource[], TDestination>, source as TSource[], destination);
+            return this.mapArrayToObject(
+                pair as ArrayToObjectMappingPair<TSource[], TDestination>,
+                source as TSource[],
+                destination
+            );
         }
 
         return Array.isArray(source) ? source.map(s => func(s, destination!, this.defaultContext)) :
