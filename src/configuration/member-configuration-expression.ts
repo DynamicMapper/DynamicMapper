@@ -7,7 +7,7 @@ import {
     ValueTransformer
 } from '../interface';
 import { TypeMap } from '../type-map';
-import { MappingPair } from '../mapping-pair';
+import { ArrayToObjectMappingPair, MappingPair } from '../mapping-pair';
 
 export class MemberConfigurationExpression<TSource, TDestination, TMember>
     implements IAutoMemberConfigurationExpression<TSource, TDestination, TMember>, IPropertyMapConfiguration {
@@ -29,12 +29,15 @@ export class MemberConfigurationExpression<TSource, TDestination, TMember>
         return this;
     }
 
-    mapFromUsing<TSourceMember>(
+    mapFromUsing<TSourceMember extends Array<any>>(
         mappingFunction: (source: TSource) => TSourceMember,
-        pair: MappingPair<
-            TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember,
-            TMember extends Array<any> ? TMember[0] : TMember
-        >): this {
+        pair: TMember extends Array<any>
+            ? MappingPair<TSourceMember[0], TMember[0]>
+            : ArrayToObjectMappingPair<TSourceMember[], TMember>
+    ): this;
+    mapFromUsing<TSourceMember extends object>(
+        mappingFunction: (source: TSource) => TSourceMember,
+        pair: MappingPair<TSourceMember, TMember>): this {
         this.propertyMapActions.push(pm => pm.mapFromUsing(mappingFunction, pair));
         return this;
     }

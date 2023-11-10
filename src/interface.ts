@@ -1,4 +1,4 @@
-import { MappingPair } from './mapping-pair';
+import { ArrayToObjectMappingPair, MappingPair } from './mapping-pair';
 import { TypeMap } from './type-map';
 import { ResolutionContext } from './resolution-context';
 import { IAutoMappingExpression, IMappingExpression } from './configuration/interface';
@@ -129,12 +129,15 @@ export interface IMemberConfigurationExpression<TSource, TDestination, TMember> 
     /**
      * Maps destination member via explicit mapping pair. Used when mapping nested objects.
      */
+    mapFromUsing<TSourceMember extends Array<any>>(
+        mappingFunction: (source: TSource) => TSourceMember,
+        pair: TMember extends Array<any>
+            ? MappingPair<TSourceMember[0], TMember[0]>
+            : ArrayToObjectMappingPair<TSourceMember, TMember>
+    ): this;
     mapFromUsing<TSourceMember>(
         mappingFunction: (source: TSource) => TSourceMember,
-        pair: MappingPair<
-            TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember,
-            TMember extends Array<any> ? TMember[0] : TMember
-        > | MappingPair<TSourceMember extends Array<any> ? TSourceMember[0] : TSourceMember, TMember>): this;
+        pair: MappingPair<TSourceMember, TMember>): this;
 
     /**
      * Apply a transformation function after any resolved destination member.
